@@ -12,7 +12,14 @@ guarantees. RFC 4033 specifically suggests using IPSEC to maintain security
 between the stub resolver and the recursive resolver.\cite{rfc4033} Using TLS
 provides similar guarantees. Additionally, this method expands the ongoing work
 of the DNS privacy working group within the IETF from not only stub-to-recursive
-resolver connections, but between recursive resolvers.
+resolver connections, but between recursive resolvers.\cite{dnsprive2015}
+
+We have concerns about the use of long-lived connections between resolvers. This
+may not scale well and may introduce additional overhead. However, one proposed 
+modification to DNS does exactly this: having DNS over a TLS connection between,
+recursive and authoritative resolvers as well as stub and recursive 
+resolvers.\cite{zhu2015connection} Combined with the DNS privacy working group
+work, optimistically, this may not be overhead in the near future.
 
 As the security of this proposal hinges on the trustworthiness of the DNS 
 resolver that a TLS connection is established with, our first course of action 
@@ -22,10 +29,8 @@ themselves to simulation. In particular, as the probabilities for verification
 change based on previous input, simulation is easier for determining whether a
 a particular strategy for verification is effective.
 
-Developing models for malicious resolver behavior and strategies for countering
 
-
-These
+These 
 need not involve actual DNS resolution, rather these can be simulated in a much
 simpler environment. Some scenarios may be modeled using Bayes rules, but only
 if probabilities are known and consistent. Other scenarios have ``moving 
@@ -33,7 +38,7 @@ parts'' --- such as changes in the probability of verification --- where
 simulation is more appropriate. Finally, different behaviors of a malicious 
 resolver can be more easily simulated, such as a resolver that only `lies' about
 one particular domain and provides valid results for all others. Different 
-strategies may be necessary for establishing trust 
+strategies may be necessary for establishing trust depending on the adversary.
 
 Further, we plan on implementing this scheme on an existing 
 DNSSEC-enabled resolver, such as BIND or Unbound. 

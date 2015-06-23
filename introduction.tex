@@ -32,7 +32,7 @@ necessary for traditional DNSSEC.
 \begin{figure}
   \centering
   \includegraphics[width=1.0\columnwidth]{figures/before-and-after}
-  \caption{Before, to verify the certificate chain that DNSSEC relies upon, many further requests are necessary to verify signatures. With our proposal, there is a long-lived, mutually authenticated TLS connection between both resolvers that the requests and responses travel across. If the local resolver knows who is at the other end of the connection, and it trusts that the remote resolver has verified signatures, the local resolver should not need to verify the same signatures itself.}
+  \caption{Before, to verify the certificate chain that DNSSEC relies upon, many further requests for RRSIG and DS resources are necessary to verify signatures. With our proposal, there is a long-lived, mutually authenticated TLS connection between both resolvers that the requests and responses travel across. If the local resolver knows who is at the other end of the connection, and it trusts that the remote resolver has verified signatures, the local resolver should not need to verify the same signatures itself.}
   \label{fig:before-and-after}
 \end{figure}
 
