@@ -1,0 +1,86 @@
+\section{Proposal}\label{sec:proposal}
+
+We want to reduce the overhead of the certificate chain verification in DNSSEC.
+By reducing the number of signature  verifications that are necessary, we reduce
+the majority of overhead costs --- queries, bandwidth, and latency --- to near 
+zero. \footnote{DNS responses will remain larger due to the addition of  DNSSEC
+signature records which are not present in vanilla DNS.}
+
+To do this, we propose using a long-lived, mutually authenticated TLS connection
+between resolvers. With mutual authentication, both resolvers can provably show
+that they know who they are talking to. If one resolver trusts what the  other 
+resolver says, there should not be a need to re-verify the DNSSEC signature
+chain. This reduces the overhead to near zero, as there will only be
+DNSSEC verification if the remote resolver does not use our proposed trust
+mechanism.
+
+There are two questions that are still left to answer. First, how do we know a
+DNSSEC resolver is trustworthy? Second, what if the remote resolver has been 
+compromised? These are both variants of the same question: How can we show that
+the remote resolver is trustworthy?
+To solve this final problem, we have two solutions. The first solution is
+entirely internal to the resolver trying to establish trust: verifying a 
+portion of the DNS responses from the remote resolver. If the local resolver 
+verifies, say, 5\% of all responses for validity, it probabilistically confirms 
+that the remote resolver is trustworthy. This will reduce the amount of extra 
+work (over traditional DNS) by near 95\%. This number can be adjusted up or 
+down, depending on level of trust (or paranoia) that the administrator has in
+the operator of the remote resolver. One automated method would be to perform
+DNSSEC certificate chain verification on all responses at the beginning of a 
+session, then slowly tapering down to a much lower level of only a few percent
+after a while without issue.
+
+The second solution involves using a reputation system, which are typically 
+external to a domain. If a large enough number of resolvers use the 
+probabilistic system described above, a reputation system could be established 
+by aggregating whether or not a particular resolver has ``lied'' and provided 
+incorrect DNSSEC responses. 
+Other resolvers that use the reputation system could tailor their 
+verification strategy based on reputation of the remote resolver. 
+For instance, one resolver that cares very strongly about 
+security could verify any and all responses from resolvers that it uses, and 
+report on the other resolvers' trustworthiness.
+A more security lax resolver may verify 50\% of responses from resolvers with a
+``bad'' reputation, but only 5\% of responses from those with a ``good'' 
+reputation, just to keep them honest and to report back to the reputation 
+system. 
+
+These are two \emph{classes} of solutions. There can be  multiple different 
+different versions, each tailored to different behaviors of malicious resolvers.
+Finding a middle ground to handle different types of behavior well, while 
+reducing DNSSEC signature verification overhead is the main challenge.
+
+There is a certificate chain verification cost when establishing a TLS 
+connection, but it is a one-time cost, rather the constant recurrent cost like 
+DNSSEC signature verifications. The overhead reductions can be seen in 
+Table~\ref{table:costs}. The overhead reduction is primarily dependent on how 
+much DNSSEC signature verification an administrator wants to use. It is also 
+dependent on how long lived the TLS connections are. Perfect reduction is not 
+possible while still maintaining reasonable security, if only  because multiple 
+connections may be needed for different remote resolvers.
+
+\begin{table}
+  \centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    & \textbf{PKI Ops.} & \begin{tabular}{l}
+      \textbf{Additional} \\ 
+      \textbf{Queries} \end{tabular} \\
+    \hline
+    \textbf{Traditional DNS} & 0 & 0 \\
+    \hline
+    \textbf{DNSSEC} & $N$ & $\sim10N$ \\
+    \hline
+    \textbf{With Alt. Trust} & 1 & 0 \\
+    \hline
+    \textbf{5\% Verified Alt. Trust} & $1+\sim0.05N$ & $\sim0.5N$ \\
+    \hline
+  \end{tabular}
+  \caption{Expected overhead versus traditional DNS. \emph{Alt. Trust} refers to
+    our proposed solution without any additional verification. 
+    \emph{5\% Verified Alt. Trust} refers to verifying 5\% of ``trusted'' 
+    responses from other DNS resolver. Transfers are estimated as a factor of 10
+    over traditional DNS.\cite{huston2013}}
+  \label{table:costs}
+\end{table}
+

@@ -1,4 +1,4 @@
-\documentclass[10pt,twocolumn]{confpaper}
+\documentclass[9pt,twocolumn]{confpaper}
 
 %%%%%%%%%%%%%%%%%%%%  INCLUDES  %%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -10,10 +10,13 @@
 
 \date{}
 \title{\ttlfnt{
-\TITLE}}
+Alternative Trust Sources:\\ Reducing DNSSEC Signature Verification Operations \\with TLS}}
 \author{
-\aufnt{\AUTHORS} \\
-\affaddr{Affiliation}
+  \aufnt{Sean Donovan} \\
+  \affaddr{Georgia Institute of Technology}
+  \and
+  \aufnt{Nick Feamster} \\
+  \affaddr{Princeton University}
 }
 
 %%%%%%%%%%%%%%%%%%%%  START OF DOCUMENT  %%%%%%%%%%%%%%%%%
@@ -22,7 +25,12 @@
 
 \maketitle
 
-%\AcmCopyright
+%\setcopyright{rightsretained} 
+%\conferenceinfo{SIGCOMM '15}{August 17-21, 2015, London, United Kingdom} 
+%\isbn{978-1-4503-3542-3/15/08}
+%\doi{http://dx.doi.org/10.1145/2785956.2790001}
+
+\AcmCopyright
 %\ToAppear
 
 \begin{sloppypar}
@@ -32,8 +40,8 @@
 \ifthenelse{\equal{\onlyAbstract}{no}}{% !onlyAbstract
 
 \input{introduction}
+\input{proposal}
 
-\input{related}
 
 \balance\input{conclusion}\label{lastpage}
 
@@ -43,7 +51,7 @@
 %\section*{Acknowledgments}
 % Comments for people we need to acknowledge in the final version.
 
-\pagebreak
+%\pagebreak
 
 \small
 %\setlength{\bibsep}{0pt}

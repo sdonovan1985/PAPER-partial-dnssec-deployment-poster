@@ -21,7 +21,7 @@
 \newcommand{\TITLE}{Title}
 \newcommand{\KEYWORDS}{Keywords}
 \newcommand{\CONFERENCE}{Conference}
-\newcommand{\PAGENUMBERS}{yes} % "yes" or "no"
+\newcommand{\PAGENUMBERS}{no} % "yes" or "no"
 \newcommand{\COLOR}{yes}
 \newcommand{\showComments}{yes}
 \newcommand{\comment}[1]{}
@@ -211,15 +211,15 @@
 \RequirePackage[breaklinks=true,pagebackref,filecolor=black,citecolor=blue,urlcolor=black,linkcolor=blue,colorlinks,pdfpagelabels,pdfpagelayout=SinglePage]{hyperref}
 
 \renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{
-  \ifcase #1 %
-    (Not cited.) %
-  \or
-    {\small\sffamily (Cited on page~#2.)}%
-  \else
-    {\small\sffamily (Cited on pages~#2.)}%
-  \fi
-}
+%\renewcommand*{\backrefalt}[4]{
+%  \ifcase #1 %
+%    (Not cited.) %
+%  \or
+%    {\small\sffamily (Cited on page~#2.)}%
+%  \else
+%    {\small\sffamily (Cited on pages~#2.)}%
+%  \fi
+%}
 \renewcommand*{\backrefsep}{, }
 \renewcommand*{\backreftwosep}{ and~}
 \renewcommand*{\backreflastsep}{ and~}
@@ -282,15 +282,12 @@ bookmarksopen = {true}
 \begin{acmcr}
 \parbox[b]{20pc}{%
 \footnotesize
-Permission to make digital or hard copies of all or part of this work
-for personal or classroom use is granted without fee provided that
-copies are not made or distributed for profit or commercial advantage
-and that copies bear this notice and the full citation on the first
-page.  To copy otherwise, to republish, to post on servers or to
-redistribute to lists, requires prior specific permission and/or a fee.
+Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the Owner/Author. 
+Copyright is held by the owner/author(s).
 
-{\em Conference}, Month Date--Date, Year, Location\\
-Copyright 200X ACM X-XXXXX-XX-X/XX/XX ...\$5.00}
+{\em SIGCOMM '15}, August 17-21, 2015, London, United Kingdom\\
+Copyright 2015 ACM 978-1-4503-3542-3/15/08 \\
+\href{http://dx.doi.org/10.1145/2785956.2790001}{http://dx.doi.org/10.1145/2785956.2790001}}
 \end{acmcr}}
 
 %%%
